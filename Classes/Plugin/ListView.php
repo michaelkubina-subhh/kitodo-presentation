@@ -81,12 +81,14 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
             return '';
         }
         // Get separator.
-        $separator = '<span class="separator">' . htmlspecialchars($this->pi_getLL('separator', ' - ')) . '</span>';
+//        $separator = '<span class="separator">' . htmlspecialchars($this->pi_getLL('separator', ' - ')) . '</span>';
+        $separator = ' ';
         // Add link to previous page.
         if ($this->piVars['pointer'] > 0) {
             $output = $this->pi_linkTP_keepPIvars(htmlspecialchars($this->pi_getLL('prevPage', '<')), ['pointer' => $this->piVars['pointer'] - 1], true) . $separator;
         } else {
-            $output = '<span>' . htmlspecialchars($this->pi_getLL('prevPage', '<')) . '</span>' . $separator;
+//            $output = '<span>' . htmlspecialchars($this->pi_getLL('prevPage', '<')) . '</span>' . $separator;
+            $output = '<a href="#">b</a>'.$separator;
         }
         $i = 0;
         $skip = null;
@@ -96,7 +98,8 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
                 if ($this->piVars['pointer'] != $i) {
                     $output .= $this->pi_linkTP_keepPIvars(htmlspecialchars(sprintf($this->pi_getLL('page', '%d'), $i + 1)), ['pointer' => $i], true) . $separator;
                 } else {
-                    $output .= '<span class="active">' . htmlspecialchars(sprintf($this->pi_getLL('page', '%d'), $i + 1)) . '</span>' . $separator;
+//                    $output .= '<span class="active">' . htmlspecialchars(sprintf($this->pi_getLL('page', '%d'), $i + 1)) . '</span>' . $separator;
+                    $output .= '<a href="#" class="lba-active">'.($i + 1).'</a>' . $separator;
                 }
                 $skip = true;
             } elseif ($skip === true) {
