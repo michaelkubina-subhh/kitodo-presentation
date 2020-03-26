@@ -172,7 +172,8 @@ class Statistics extends \Kitodo\Dlf\Common\AbstractPlugin
                 ->execute()
                 ->fetchColumn(0);
         }
-
+        $countTitles = $resultTitles->num_rows;
+        $countVolumes = $GLOBALS['TYPO3_DB']->sql_num_rows($resultVolumes);
         // Set replacements.
         $replace = [
             'key' => [
