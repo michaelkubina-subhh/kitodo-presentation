@@ -183,8 +183,17 @@ class PageGrid extends \Kitodo\Dlf\Common\AbstractPlugin
         } else {
             $this->piVars['pointer'] = 0;
         }
+
+        $startingPoint = $this->piVars['page'] - (floor($this->conf['limit'] / 2));
+        if ($startingPoint < 0) {
+            $startingPoint = 0;
+        }
+        if (($startingPoint + $this->conf['limit']) >= $this->doc->numPages) {
+            $startingPoint = $this->doc->numPages - $this->conf['limit'];
+        }
+
         // Iterate through visible page set and display thumbnails.
-        for ($i = $this->piVars['pointer'] * $this->conf['limit'], $j = ($this->piVars['pointer'] + 1) * $this->conf['limit']; $i < $j; $i++) {
+        for ($i = $startingPoint, $j = $startingPoint + $this->conf['limit']; $i < $j; $i++) {
             // +1 because page counting starts at 1.
             $number = $i + 1;
             if ($number > $this->doc->numPages) {
