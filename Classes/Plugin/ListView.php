@@ -129,7 +129,11 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
      */
     protected function getEntry($number, $template)
     {
-        $markerArray['###NUMBER###'] = ($this->piVars['pointer'] * $this->conf['limit']) + $number + 1;
+        if ($number >= $this->conf['limit']) {
+            $markerArray['###NUMBER###'] = $number + 1;
+        } else {
+            $markerArray['###NUMBER###'] = ($this->piVars['pointer'] * $this->conf['limit']) + $number + 1;
+        }
         $markerArray['###METADATA###'] = '';
         $markerArray['###THUMBNAIL###'] = '';
         $markerArray['###PREVIEW###'] = '';
