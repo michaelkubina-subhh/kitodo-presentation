@@ -202,7 +202,7 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
         }
         // Add thumbnail.
         if (!empty($this->list[$number]['thumbnail'])) {
-            $markerArray['###THUMBNAIL###'] = '<img alt="' . $imgAlt . '" src="' . $this->list[$number]['thumbnail'] . '" />';
+            $markerArray['###THUMBNAIL###'] = '<img loading="lazy" alt="' . $imgAlt . '" src="' . $this->list[$number]['thumbnail'] . '" />';
         }
         // Add preview.
         if (!empty($this->list[$number]['preview'])) {
@@ -384,7 +384,7 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
             }
             // Add thumbnail.
             if (!empty($subpart['thumbnail'])) {
-                $markerArray['###SUBTHUMBNAIL###'] = '<img alt="' . $imgAlt . '" src="' . $subpart['thumbnail'] . '" />';
+                $markerArray['###SUBTHUMBNAIL###'] = '<img loading="lazy" alt="' . $imgAlt . '" src="' . $subpart['thumbnail'] . '" />';
             }
             // Add preview.
             if (!empty($subpart['preview'])) {
