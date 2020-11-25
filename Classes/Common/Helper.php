@@ -588,7 +588,11 @@ class Helper
         }
         // Get the session data.
         if (\TYPO3_MODE === 'FE') {
-            return $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
+            if ($GLOBALS['TSFE']) {
+                return $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
+            } else {
+                return;
+            }
         } elseif (\TYPO3_MODE === 'BE') {
             return $GLOBALS['BE_USER']->getSessionData($key);
         } else {
@@ -856,6 +860,9 @@ class Helper
     public static function whereExpression($table, $showHidden = false)
     {
         if (\TYPO3_MODE === 'FE') {
+            if (!$GLOBALS['TSFE']) {
+                return '';
+            }
             // Should we ignore the record's hidden flag?
             $ignoreHide = 0;
             if ($showHidden) {
