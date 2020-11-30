@@ -234,13 +234,7 @@ class PageView extends \Kitodo\Dlf\Common\AbstractPlugin
                     ];
                     $image['url'] = $this->cObj->typoLink_URL($linkConf);
                 } else if ($this->conf['useRestrictionProxy']) {
-                    $linkConf = [
-                        'parameter' => $GLOBALS['TSFE']->id,
-                        'forceAbsoluteUrl' => !empty($this->conf['forceAbsoluteUrl']) ? 1 : 0,
-                        'forceAbsoluteUrl.' => ['scheme' => !empty($this->conf['forceAbsoluteUrl']) && !empty($this->conf['forceAbsoluteUrlHttps']) ? 'https' : 'http'],
-                        'additionalParams' => '&page=' . $page . '&id=' . $this->doc->uid . '&fileGrp=' . $fileGrp,
-                    ];
-                    $image['url'] = $this->cObj->typoLink_URL($linkConf);
+                    $image['url'] = $image['url'] . '&page=' . $page . '&id=' . $this->doc->uid . '&fileGrp=' . $fileGrp;
                 }
                 $image['mimetype'] = $this->doc->getFileMimeType($this->doc->physicalStructureInfo[$this->doc->physicalStructure[$page]]['files'][$fileGrp]);
                 break;
@@ -275,6 +269,8 @@ class PageView extends \Kitodo\Dlf\Common\AbstractPlugin
                     'additionalParams' => '&eID=tx_dlf_pageview_proxy&url=' . urlencode($fulltext['url']),
                 ];
                 $fulltext['url'] = $this->cObj->typoLink_URL($linkConf);
+            } else if ($this->conf['useRestrictionProxy']) {
+                $fulltext['url'] = $fulltext['url'] . '&page=' . $page . '&id=' . $this->doc->uid . '&fileGrp=' . $this->conf['fileGrpFulltext'];
             }
             $fulltext['mimetype'] = $this->doc->getFileMimeType($this->doc->physicalStructureInfo[$this->doc->physicalStructure[$page]]['files'][$this->conf['fileGrpFulltext']]);
         } else {
