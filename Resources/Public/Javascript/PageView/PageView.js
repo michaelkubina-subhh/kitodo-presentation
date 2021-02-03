@@ -393,7 +393,7 @@ dlfViewer.prototype.init = function(controlNames) {
                     new ol.interaction.DragZoom(),
                     new ol.interaction.PinchRotate(),
                     new ol.interaction.PinchZoom(),
-                    new ol.interaction.MouseWheelZoom(),
+                 //   new ol.interaction.MouseWheelZoom(),
                     new ol.interaction.KeyboardPan(),
                     new ol.interaction.KeyboardZoom,
                     new ol.interaction.DragRotateAndZoom()
