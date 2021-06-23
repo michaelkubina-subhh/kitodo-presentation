@@ -436,7 +436,7 @@ class Indexer
             || !empty($annotationContainerIds = $physicalUnit['annotationContainers'])
         ) {
             if (!empty($physicalUnit['files'][$extConf['fileGrpFulltext']])) {
-                $file = $doc->getFileLocation($physicalUnit['files'][$extConf['fileGrpFulltext']]);
+                $file = $doc->getFileLocation($physicalUnit['files'][$extConf['fileGrpFulltext']]) . '&ftxt_token=internal_request&fileGrp=FULLTEXT&id=' . $doc->uid;
                 // Load XML file.
                 if (GeneralUtility::isValidUrl($file)) {
                     // Set user-agent to identify self when fetching XML data.

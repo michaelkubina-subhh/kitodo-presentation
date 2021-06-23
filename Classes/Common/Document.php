@@ -664,7 +664,7 @@ abstract class Document
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][self::$extKey]);
         if (!empty($this->physicalStructureInfo[$id])) {
             // Get fulltext file.
-            $file = GeneralUtility::getUrl($this->getFileLocation($this->physicalStructureInfo[$id]['files'][$extConf['fileGrpFulltext']]));
+            $file = GeneralUtility::getUrl($this->getFileLocation($this->physicalStructureInfo[$id]['files'][$extConf['fileGrpFulltext']]) . '&ftxt_token=internal_request&fileGrp=FULLTEXT&id=' . $this->uid);
             if ($file !== false) {
                 // Turn off libxml's error logging.
                 $libxmlErrors = libxml_use_internal_errors(true);
