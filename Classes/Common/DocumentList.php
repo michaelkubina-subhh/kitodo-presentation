@@ -266,7 +266,7 @@ class DocumentList implements \ArrayAccess, \Countable, \Iterator, \TYPO3\CMS\Co
                     // Add sorting.
                     $params['sort'] = $this->metadata['options']['params']['sort'];
                     // Set query.
-                    $params['query'] = $this->metadata['options']['select'] . ' OR toplevel:true';
+                    $params['query'] = '(' . $this->metadata['options']['select'] . ') OR toplevel:true';
                     // Perform search for all documents with the same uid that either fit to the search or marked as toplevel.
                     $selectQuery = $this->solr->service->createSelect($params);
                     $result = $this->solr->service->select($selectQuery);
