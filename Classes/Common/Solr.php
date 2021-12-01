@@ -175,15 +175,24 @@ class Solr
     public static function escapeQuery($query)
     {
         $helper = GeneralUtility::makeInstance(\Solarium\Core\Query\Helper::class);
+
+        // SUB-HH => Komplett auf die Unterscheidung zwischen Phrase und Term verzichten.
+
         // Escape query phrase or term.
-        if (preg_match('/^".*"$/', $query)) {
-            return $helper->escapePhrase(trim($query, '"'));
-        } else {
-            // Using a modified escape function here to retain whitespace, '*' and '?' for search truncation.
-            // @see https://github.com/solariumphp/solarium/blob/5.x/src/Core/Query/Helper.php#L70 for reference
-            /* return $helper->escapeTerm($query); */
-            return preg_replace('/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|:|\/|\\\)/', '\\\$1', $query);
-        }
+//        if (preg_match('/^".*"$/', $query)) {
+//            return $helper->escapePhrase(trim($query, '"'));
+//        } else {
+//            // Using a modified escape function here to retain whitespace, '*' and '?' for search truncation.
+//            // @see https://github.com/solariumphp/solarium/blob/5.x/src/Core/Query/Helper.php#L70 for reference
+//            /* return $helper->escapeTerm($query); */
+//            return preg_replace('/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|:|\/|\\\)/', '\\\$1', $query);
+//        }
+
+        // SUB-HH 2021-10-22 => tatsächlich brauchen wir die meisten Suchoperatoren!
+        // Aktuell nicht benötigte Suchoperatoren => Sonderzeichen\ , exlusive Bereichssuche{}
+        // auch nicht benötigte alternative Schreibweise für boolsche Logik: &&, ||, ! sowie + und -
+
+        return preg_replace('/(\+|-|&&|\|\||!\{|}|\/|\\\)/', '\\\$1', $query);
     }
 
     /**
