@@ -82,7 +82,7 @@ var dlfViewerFullTextControl = function(map, image, fulltextUrl) {
      * @private
      */
     this.searchHlParameters = this.dic['search-hl-parameters'];
-    
+
     /**
      * @type {ol.Feature|undefined}
      * @private
@@ -223,7 +223,7 @@ dlfViewerFullTextControl.prototype.addActiveBehaviourForSwitchOn = function() {
     $("#tx-dlf-tools-fulltext")
         .text(this.dic['fulltext'])
         .attr('title', this.dic['fulltext']);
-    
+
     this.activate();
 };
 
@@ -233,7 +233,7 @@ dlfViewerFullTextControl.prototype.addActiveBehaviourForSwitchOff = function() {
         var toogleFulltext = $.proxy(function(event) {
             event.preventDefault();
 
-            if ($(event.target).hasClass('active')) {
+            if ($(event.target).hasClass('active') || $(event.target).parent().hasClass('active')) {
                 this.deactivate();
                 return;
             }
@@ -247,7 +247,7 @@ dlfViewerFullTextControl.prototype.addActiveBehaviourForSwitchOff = function() {
 
     // set initial title of fulltext element
     $("#tx-dlf-tools-fulltext")
-        .text(this.dic['fulltext-on'])
+        // .text(this.dic['fulltext-on'])
         .attr('title', this.dic['fulltext-on']);
 
     // if fulltext is activated via cookie than run activation methode
@@ -336,12 +336,12 @@ dlfViewerFullTextControl.prototype.removeHighlightEffect = function(activeHoverT
 /**
  * Add highlight effect from full text view
  * @param {ol.Feature|undefined} textlineFeature
- * @param {any} hoverSourceTextline_ 
+ * @param {any} hoverSourceTextline_
  */
 dlfViewerFullTextControl.prototype.addHighlightEffect = function(textlineFeature, hoverSourceTextline_) {
     if (textlineFeature) {
         var targetElem = $('#' + textlineFeature.getId());
-        
+
         if (targetElem.length > 0 && !targetElem.hasClass('highlight')) {
             targetElem.addClass('highlight');
             setTimeout(this.scrollToText, 1000, targetElem, this.fullTextScrollElement);
@@ -352,7 +352,7 @@ dlfViewerFullTextControl.prototype.addHighlightEffect = function(textlineFeature
 
 /**
  * Scroll to full text element if it is highlighted
- * @param {any} element 
+ * @param {any} element
  * @param {string} fullTextScrollElement
  */
 dlfViewerFullTextControl.prototype.scrollToText = function(element, fullTextScrollElement) {
@@ -437,7 +437,7 @@ dlfViewerFullTextControl.prototype.disableFulltextSelect = function() {
 
     if(this.activateFullTextInitially === 0) {
         $("#tx-dlf-tools-fulltext")
-        .text(this.dic['fulltext-on'])
+        // .text(this.dic['fulltext-on'])
         .attr('title', this.dic['fulltext-on']);
     }
 
@@ -469,7 +469,7 @@ dlfViewerFullTextControl.prototype.enableFulltextSelect = function() {
 
     if(this.activateFullTextInitially=== 0) {
         $("#tx-dlf-tools-fulltext")
-        .text(this.dic['fulltext-off'])
+        // .text(this.dic['fulltext-off'])
         .attr('title', this.dic['fulltext-off']);
     }
 
@@ -505,7 +505,7 @@ dlfViewerFullTextControl.prototype.showFulltext = function(features) {
 dlfViewerFullTextControl.prototype.appendTextLineSpan = function(textLine) {
     var textLineSpan = $('<span class="textline" id="' + textLine.getId() + '">');
     var content = textLine.get('content');
-    
+
     for (item of content) {
         var span = $('<span class="' + item.get('type') + '" id="' + item.getId() + '"/>');
         var spanText = item.get('fulltext');
