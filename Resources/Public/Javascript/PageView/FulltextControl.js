@@ -244,7 +244,7 @@ var dlfViewerFullTextControl = function(map, image, fulltextUrl) {
         var toogleFulltext = $.proxy(function(event) {
             event.preventDefault();
 
-            if ($(event.target).hasClass('active')) {
+            if ($(event.target).hasClass('active') || $(event.target).parent().hasClass('active')) {
                 this.deactivate();
                 return;
             }
@@ -259,7 +259,7 @@ var dlfViewerFullTextControl = function(map, image, fulltextUrl) {
 
     // set initial title of fulltext element
     $("#tx-dlf-tools-fulltext")
-        .text(this.dic['fulltext-on'])
+        // .text(this.dic['fulltext-on'])
         .attr('title', this.dic['fulltext-on']);
 
     // if fulltext is activated via cookie than run activation methode
@@ -341,7 +341,7 @@ dlfViewerFullTextControl.prototype.disableFulltextSelect = function() {
 
     var className = 'fulltext-visible';
     $("#tx-dlf-tools-fulltext").removeClass(className)
-        .text(this.dic['fulltext-on'])
+        // .text(this.dic['fulltext-on'])
         .attr('title', this.dic['fulltext-on']);
 
     $('#tx-dlf-fulltextselection').removeClass(className);
@@ -371,7 +371,7 @@ dlfViewerFullTextControl.prototype.enableFulltextSelect = function(textBlockFeat
     // show fulltext container
     var className = 'fulltext-visible';
     $("#tx-dlf-tools-fulltext").addClass(className)
-      .text(this.dic['fulltext-off'])
+      // .text(this.dic['fulltext-off'])
       .attr('title', this.dic['fulltext-off']);
 
     $('#tx-dlf-fulltextselection').addClass(className);
