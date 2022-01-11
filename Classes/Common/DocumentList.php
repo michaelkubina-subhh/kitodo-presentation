@@ -244,7 +244,7 @@ class DocumentList implements \ArrayAccess, \Countable, \Iterator, \TYPO3\CMS\Co
                             'highlighting' => [
 //                                'query' => Solr::escapeQuery($this->metadata['searchString']),
                                 'field' => 'fulltext',
-                                'usefastvectorhighlighter' => true
+//                                'usefastvectorhighlighter' => true
                             ]
                         ];
                     }
