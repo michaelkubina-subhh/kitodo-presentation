@@ -125,7 +125,7 @@ class Calendar extends \Kitodo\Dlf\Common\AbstractPlugin
                 $queryBuilder->expr()->eq('tx_dlf_documents.partof', intval($this->doc->uid)),
                 Helper::whereExpression('tx_dlf_documents')
             )
-            ->orderBy('tx_dlf_documents.mets_orderlabel')
+            ->orderBy('tx_dlf_documents.volume_sorting')
             ->execute();
 
         $issues = [];
