@@ -312,7 +312,10 @@ class ListView extends \Kitodo\Dlf\Common\AbstractPlugin
     {
         $content = '';
         $noTitle = $this->pi_getLL('noTitle');
-        $highlight_word = preg_replace('/\s\s+/', ';', $this->list->metadata['searchString']);
+//        $highlight_word = preg_replace('/\s\s+/', ';', $this->list->metadata['searchString']);
+        $highlight_word = preg_replace('/^;|;$/', '',
+            preg_replace('/[^A-zÀ-ɏ0-9]+/', ';',
+            preg_replace('/AND|OR|NOT|~\d+|\^\d+.\d*/', '', $this->list->metadata['searchString'])));
         foreach ($this->list[$number]['subparts'] as $subpart) {
             $markerArray['###SUBMETADATA###'] = '';
             $markerArray['###SUBTHUMBNAIL###'] = '';

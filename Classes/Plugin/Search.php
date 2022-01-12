@@ -524,7 +524,10 @@ class Search extends \Kitodo\Dlf\Common\AbstractPlugin
             if ($list->metadata['options']['numberOfHits'] == 1 && !empty($this->conf['showSingleResult'])) {
                 $linkConf['parameter'] = $this->conf['targetPidPageView'];
                 $additionalParams['id'] = $list->current()['uid'];
-                $additionalParams['highlight_word'] = preg_replace('/\s\s+/', ';', $list->metadata['searchString']);
+//                $additionalParams['highlight_word'] = preg_replace('/\s\s+/', ';', $list->metadata['searchString']);
+                $additionalParams['highlight_word'] = preg_replace('/^;|;$/', '',
+                    preg_replace('/[^A-zÀ-ɏ0-9]+/', ';',
+                    preg_replace('/AND|OR|NOT|~\d+|\^\d+.\d*/', '', $this->list->metadata['searchString'])));
                 $additionalParams['page'] = count($list[0]['subparts']) == 1 ? $list[0]['subparts'][0]['page'] : 1;
             } else {
                 // Keep some plugin variables.
