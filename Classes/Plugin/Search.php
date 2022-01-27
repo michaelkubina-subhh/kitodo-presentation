@@ -655,6 +655,10 @@ class Search extends \Kitodo\Dlf\Common\AbstractPlugin
                     if ($entryArray['ITEM_STATE'] == 'NO') {
                         $entryArray['ITEM_STATE'] = 'IFSUB';
                     }
+//SUB-HH
+//undo escaping
+                    $search['query'] = preg_replace('/(\\\)/', '', $search['query']);
+//SUB-HH
                     $entryArray['_SUB_MENU'][] = $this->getFacetsMenuEntry($field, $value, $count, $search, $entryArray['ITEM_STATE']);
                     if (++$i == $this->conf['limit']) {
                         break;
