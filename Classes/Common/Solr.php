@@ -133,7 +133,7 @@ class Solr
         // Aktuell nicht benötigte Suchoperatoren => Sonderzeichen\ , exlusive Bereichssuche{}
         // auch nicht benötigte alternative Schreibweise für boolsche Logik: &&, ||, ! sowie + und -
 
-        return preg_replace('/(\+|-|&&|\|\||!\{|}|\/|\\\)/', '\\\$1', $query);
+        return preg_replace('/(\+|-|&&|\|\||!\{|}|\/|:|\\\)/', '\\\$1', $query);
     }
 
     /**
