@@ -261,6 +261,8 @@ class BaseCommand extends Command
         // to be still (re-) implemented
         // 'volume' => $metadata['volume'][0],
         // 'volume_sorting' => $metadata['volume_sorting'][0],
+        $document->setVolume($metadata['volume'][0] ? : '');
+        $document->setVolumeSorting($metadata['volume_sorting'][0] ? : '');
 
         // Get UID of parent document.
         if ($document->getDocumentFormat() === 'METS') {
