@@ -299,9 +299,9 @@ class SearchController extends AbstractController
         }
 
         // only count toplevel elements
-        if (is_string($search['query']) && $search['query'] != '') {
+        if (is_string($search['query']) && $search['query'] != '' && empty($searchParams['fulltext'])) {
             $search['query'] = $search['query'] . ' AND -type:page';
-        } else {
+        } else if (empty($searchParams['fulltext'])) {
             $search['query'] = '-type:page';
         }
 
