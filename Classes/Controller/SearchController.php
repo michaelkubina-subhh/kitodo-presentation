@@ -103,13 +103,23 @@ class SearchController extends AbstractController
 
         if (isset($listRequestData['searchParameter']) && is_array($listRequestData['searchParameter'])) {
             $this->searchParams = array_merge($this->searchParams ? : [], $listRequestData['searchParameter']);
-            $listViewSearch = true;
+            $GLOBALS['TSFE']->fe_user->setKey('ses','searchParams',$this->searchParams);
+        } else {
+            // try to get last search from session
+            $this->searchParams = $GLOBALS['TSFE']->fe_user->getKey('ses', 'searchParams');
         }
 
         // Pagination of Results: Pass the currentPage to the fluid template to calculate current index of search result.
         $widgetPage = $this->getParametersSafely('@widget_0');
         if (empty($widgetPage)) {
-            $widgetPage = ['currentPage' => 1];
+            if (empty($GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage'))) {
+                $widgetPage = ['currentPage' => 1];
+                $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',1);
+            } else {
+                $widgetPage = ['currentPage' => $GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage')];
+            }
+        } else {
+            $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',$widgetPage['currentPage']);
         }
 
         // If a targetPid is given, the results will be shown by ListView on the target page.
@@ -117,7 +127,8 @@ class SearchController extends AbstractController
             $this->redirect('main', 'ListView', null,
                 [
                     'searchParameter' => $this->searchParams,
-                    'widgetPage' => $widgetPage
+                    'widgetPage' => $widgetPage,
+                    '@widget_0' => $widgetPage
                 ], $this->settings['targetPid']
             );
         }
@@ -285,6 +296,13 @@ class SearchController extends AbstractController
                 'limit' => $this->settings['limitFacets'],
                 'sort' => isset($this->settings['sortingFacets']) ? $this->settings['sortingFacets'] : 'count'
             ];
+        }
+
+        // only count toplevel elements
+        if (is_string($search['query']) && $search['query'] != '') {
+            $search['query'] = $search['query'] . ' AND -type:page';
+        } else {
+            $search['query'] = '-type:page';
         }
 
         // Set additional query parameters.
