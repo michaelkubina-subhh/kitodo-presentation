@@ -103,6 +103,7 @@ class SearchController extends AbstractController
 
         if (isset($listRequestData['searchParameter']) && is_array($listRequestData['searchParameter'])) {
             $this->searchParams = array_merge($this->searchParams ? : [], $listRequestData['searchParameter']);
+            $listViewSearch = true;
             $GLOBALS['TSFE']->fe_user->setKey('ses','searchParams',$this->searchParams);
         } else {
             // try to get last search from session
