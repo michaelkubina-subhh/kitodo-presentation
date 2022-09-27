@@ -104,23 +104,12 @@ class SearchController extends AbstractController
         if (isset($listRequestData['searchParameter']) && is_array($listRequestData['searchParameter'])) {
             $this->searchParams = array_merge($this->searchParams ? : [], $listRequestData['searchParameter']);
             $listViewSearch = true;
-            $GLOBALS['TSFE']->fe_user->setKey('ses','searchParams',$this->searchParams);
-        } else {
-            // try to get last search from session
-            $this->searchParams = $GLOBALS['TSFE']->fe_user->getKey('ses', 'searchParams');
         }
 
         // Pagination of Results: Pass the currentPage to the fluid template to calculate current index of search result.
         $widgetPage = $this->getParametersSafely('@widget_0');
         if (empty($widgetPage)) {
-            if (empty($GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage'))) {
-                $widgetPage = ['currentPage' => 1];
-                $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',1);
-            } else {
-                $widgetPage = ['currentPage' => $GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage')];
-            }
-        } else {
-            $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',$widgetPage['currentPage']);
+            $widgetPage = ['currentPage' => 1];
         }
 
         // If a targetPid is given, the results will be shown by ListView on the target page.
@@ -128,8 +117,7 @@ class SearchController extends AbstractController
             $this->redirect('main', 'ListView', null,
                 [
                     'searchParameter' => $this->searchParams,
-                    'widgetPage' => $widgetPage,
-                    '@widget_0' => $widgetPage
+                    'widgetPage' => $widgetPage
                 ], $this->settings['targetPid']
             );
         }

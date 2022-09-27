@@ -79,14 +79,7 @@ class ListViewController extends AbstractController
 
         $widgetPage = $this->getParametersSafely('@widget_0');
         if (empty($widgetPage)) {
-            if (empty($GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage'))) {
-                $widgetPage = ['currentPage' => 1];
-                $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',1);
-            } else {
-                $widgetPage = ['currentPage' => $GLOBALS['TSFE']->fe_user->getKey('ses', 'currentPage')];
-            }
-        } else {
-            $GLOBALS['TSFE']->fe_user->setKey('ses','currentPage',$widgetPage['currentPage']);
+            $widgetPage = ['currentPage' => 1];
         }
 
         // get all sortable metadata records
