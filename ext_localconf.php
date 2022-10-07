@@ -190,7 +190,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Kitodo\Dlf\U
     ],
     // non-cacheable actions
     [
-        Navigation::class => '',
+        Navigation::class => 'main',
     ]
 );
 
