@@ -100,6 +100,7 @@ class ListViewController extends AbstractController
         $this->view->assign('numResults', $numResults);
         $this->view->assign('widgetPage', $widgetPage);
         $this->view->assign('lastSearch', $this->searchParams);
+        $this->view->assign('currentCollection', $collection);
 
         $this->view->assign('sortableMetadata', $sortableMetadata);
         $this->view->assign('listedMetadata', $listedMetadata);
