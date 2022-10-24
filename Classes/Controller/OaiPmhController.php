@@ -106,7 +106,7 @@ class OaiPmhController extends AbstractController
         'mets' => [
             'schema' => 'http://www.loc.gov/standards/mets/version17/mets.v1-7.xsd',
             'namespace' => 'http://www.loc.gov/METS/',
-            'requiredFields' => ['location'],
+            'requiredFields' => ['record_id'],
         ]
     ];
 
