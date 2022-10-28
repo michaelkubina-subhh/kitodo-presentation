@@ -188,7 +188,8 @@ class Solr implements LoggerAwareInterface
             // Using a modified escape function here to retain whitespace, '*' and '?' for search truncation.
             // @see https://github.com/solariumphp/solarium/blob/5.x/src/Core/Query/Helper.php#L70 for reference
             /* return $helper->escapeTerm($query); */
-            return preg_replace('/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|:|\/|\\\)/', '\\\$1', $query);
+            //return preg_replace('/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|:|\/|\\\)/', '\\\$1', $query);
+            return preg_replace('/(\+|-|&&|\|\||!\{|}|\/|:|\\\)/', '\\\$1', $query);
         }
     }
 
