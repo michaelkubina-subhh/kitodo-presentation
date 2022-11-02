@@ -299,9 +299,9 @@ dlfViewer.prototype.addCustomControls = function() {
                 fulltextControl.loadFulltextData(fulltextData);
                 fulltextDownloadControl.setFulltextData(fulltextData);
             })
-            .catch(function () {
-                fulltextControl.deactivate();
-            });
+            // .catch(function () {
+            //     fulltextControl.deactivate();
+            // });
     } else {
         $('#tx-dlf-tools-fulltext').remove();
     }
