@@ -218,7 +218,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if ($settings['collections']) {
             // Include only selected collections.
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tx_dlf_documents');
+                ->getQueryBuilderForTable('tx_dlf_documents');
 
             $countTitles = $queryBuilder
                 ->count('tx_dlf_documents.uid')
@@ -251,50 +251,50 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 ->execute()
                 ->fetchColumn(0);
 
-                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-                    ->getQueryBuilderForTable('tx_dlf_documents');
-                $subQueryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-                    ->getQueryBuilderForTable('tx_dlf_documents');
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('tx_dlf_documents');
+            $subQueryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('tx_dlf_documents');
 
-                $subQuery = $subQueryBuilder
-                    ->select('tx_dlf_documents.partof')
-                    ->from('tx_dlf_documents')
-                    ->where(
-                        $subQueryBuilder->expr()->neq('tx_dlf_documents.partof', 0)
-                    )
-                    ->groupBy('tx_dlf_documents.partof')
-                    ->getSQL();
+            $subQuery = $subQueryBuilder
+                ->select('tx_dlf_documents.partof')
+                ->from('tx_dlf_documents')
+                ->where(
+                    $subQueryBuilder->expr()->neq('tx_dlf_documents.partof', 0)
+                )
+                ->groupBy('tx_dlf_documents.partof')
+                ->getSQL();
 
-                $countVolumes = $queryBuilder
-                    ->count('tx_dlf_documents.uid')
-                    ->from('tx_dlf_documents')
-                    ->innerJoin(
-                        'tx_dlf_documents',
-                        'tx_dlf_relations',
-                        'tx_dlf_relations_joins',
-                        $queryBuilder->expr()->eq(
-                            'tx_dlf_relations_joins.uid_local',
-                            'tx_dlf_documents.uid'
-                        )
+            $countVolumes = $queryBuilder
+                ->count('tx_dlf_documents.uid')
+                ->from('tx_dlf_documents')
+                ->innerJoin(
+                    'tx_dlf_documents',
+                    'tx_dlf_relations',
+                    'tx_dlf_relations_joins',
+                    $queryBuilder->expr()->eq(
+                        'tx_dlf_relations_joins.uid_local',
+                        'tx_dlf_documents.uid'
                     )
-                    ->innerJoin(
-                        'tx_dlf_relations_joins',
-                        'tx_dlf_collections',
-                        'tx_dlf_collections_join',
-                        $queryBuilder->expr()->eq(
-                            'tx_dlf_relations_joins.uid_foreign',
-                            'tx_dlf_collections_join.uid'
-                        )
+                )
+                ->innerJoin(
+                    'tx_dlf_relations_joins',
+                    'tx_dlf_collections',
+                    'tx_dlf_collections_join',
+                    $queryBuilder->expr()->eq(
+                        'tx_dlf_relations_joins.uid_foreign',
+                        'tx_dlf_collections_join.uid'
                     )
-                    ->where(
-                        $queryBuilder->expr()->eq('tx_dlf_documents.pid', intval($settings['storagePid'])),
-                        $queryBuilder->expr()->eq('tx_dlf_collections_join.pid', intval($settings['storagePid'])),
-                        $queryBuilder->expr()->notIn('tx_dlf_documents.uid', $subQuery),
-                        $queryBuilder->expr()->in('tx_dlf_collections_join.uid', $queryBuilder->createNamedParameter(GeneralUtility::intExplode(',', $settings['collections']), Connection::PARAM_INT_ARRAY)),
-                        $queryBuilder->expr()->eq('tx_dlf_relations_joins.ident', $queryBuilder->createNamedParameter('docs_colls'))
-                    )
-                    ->execute()
-                    ->fetchColumn(0);
+                )
+                ->where(
+                    $queryBuilder->expr()->eq('tx_dlf_documents.pid', intval($settings['storagePid'])),
+                    $queryBuilder->expr()->eq('tx_dlf_collections_join.pid', intval($settings['storagePid'])),
+                    $queryBuilder->expr()->notIn('tx_dlf_documents.uid', $subQuery),
+                    $queryBuilder->expr()->in('tx_dlf_collections_join.uid', $queryBuilder->createNamedParameter(GeneralUtility::intExplode(',', $settings['collections']), Connection::PARAM_INT_ARRAY)),
+                    $queryBuilder->expr()->eq('tx_dlf_relations_joins.ident', $queryBuilder->createNamedParameter('docs_colls'))
+                )
+                ->execute()
+                ->fetchColumn(0);
         } else {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable('tx_dlf_documents');
@@ -383,7 +383,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $queryBuilder->expr()->eq('tx_dlf_structures_join.pid', intval($pid)),
                 $excludeOtherWhere
             )
-            ->addOrderBy('tx_dlf_documents.volume_sorting')
+            ->add('orderBy', 'cast(volume_sorting as UNSIGNED) asc')
             ->addOrderBy('tx_dlf_documents.mets_orderlabel')
             ->execute();
         return $result;
@@ -502,7 +502,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $queryBuilder->expr()->in('tx_dlf_documents.pid', $this->settings['storagePid']),
                 $exprDocumentMatchesUid
             )
-            ->addOrderBy('tx_dlf_documents.volume_sorting', 'asc')
+            ->add('orderBy', 'cast(volume_sorting as UNSIGNED) asc')
             ->addOrderBy('tx_dlf_documents.mets_orderlabel', 'asc')
             ->execute();
 
