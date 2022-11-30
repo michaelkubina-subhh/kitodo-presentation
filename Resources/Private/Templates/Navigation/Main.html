@@ -190,11 +190,15 @@
 </f:section>
 
 <f:section name="render.listview">
-        <div class="tx-dlf-navigation-listview">
-            <f:link.page pageUid="{settings.targetPid}" additionalParams="{lastSearchParams}">
-                <f:translate key="linkToList"/>
-            </f:link.page>
-        </div>
+    <f:if condition="{lastSearchParams}">
+        <f:then>
+            <div class="tx-dlf-navigation-listview">
+                <f:link.page pageUid="{settings.targetPid}" additionalParams="{lastSearchParams}">
+                    <f:translate key="linkToList"/>
+                </f:link.page>
+            </div>
+        </f:then>
+    </f:if>
 </f:section>
 
 <f:section name="render.zoom">
