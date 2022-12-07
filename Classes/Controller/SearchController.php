@@ -107,6 +107,28 @@ class SearchController extends AbstractController
             $GLOBALS['TSFE']->fe_user->setKey('ses', 'search', $this->searchParams);
         }
 
+        // sanitize date search input
+        if(empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
+            $this->searchParams['dateFrom'] = $this->searchParams['dateTo'];
+        }
+        if(empty($this->searchParams['dateTo']) && !empty($this->searchParams['dateFrom'])) {
+            $this->searchParams['dateTo'] = $this->searchParams['dateFrom'];
+        }
+        /* // alternative sanitize logic
+        if(empty($this->searchParams['dateFrom'])) {
+            $this->searchParams['dateFrom'] = "0000-01-01";
+        }
+        if(empty($this->searchParams['dateTo'])) {
+            $this->searchParams['dateTo'] = "9999-12-31";
+        }
+        */
+        if($this->searchParams['dateFrom'] > $this->searchParams['dateTo']) {
+            $tmpDate = $this->searchParams['dateFrom'];
+            $this->searchParams['dateFrom'] = $this->searchParams['dateTo'];
+            $this->searchParams['dateTo'] = $tmpDate;
+        }
+    
+
         // Pagination of Results: Pass the currentPage to the fluid template to calculate current index of search result.
         $widgetPage = $this->getParametersSafely('@widget_0');
         if (empty($widgetPage)) {
@@ -242,6 +264,12 @@ class SearchController extends AbstractController
             }
         }
 
+        // add filter query for date search
+        if (!empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
+            // combine dateFrom and dateTo into filterquery as range search
+            $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}' . $fields['date'] . ':[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
+        }
+
         // Add extended search query.
         if (
             !empty($searchParams['extQuery'])
@@ -281,6 +309,7 @@ class SearchController extends AbstractController
         foreach (array_keys($facets) as $field) {
             $search['params']['component']['facetset']['facet'][] = [
                 'type' => 'field',
+                'mincount' => '1',
                 'key' => $field,
                 'field' => $field,
                 'limit' => $this->settings['limitFacets'],
@@ -323,7 +352,7 @@ class SearchController extends AbstractController
         if ($facet) {
             foreach ($facet as $field => $values) {
                 $entryArray = [];
-                $entryArray['field'] = substr($field, 0, strpos($field, '_'));
+                $entryArray['field'] = substr($field, 0, strpos($field, '_faceting'));
                 $entryArray['count'] = 0;
                 $entryArray['_OVERRIDE_HREF'] = '';
                 $entryArray['ITEM_STATE'] = 'NO';
