@@ -127,7 +127,7 @@ class SearchController extends AbstractController
             $this->searchParams['dateFrom'] = $this->searchParams['dateTo'];
             $this->searchParams['dateTo'] = $tmpDate;
         }
-    
+
 
         // Pagination of Results: Pass the currentPage to the fluid template to calculate current index of search result.
         $widgetPage = $this->getParametersSafely('@widget_0');
@@ -267,7 +267,7 @@ class SearchController extends AbstractController
         // add filter query for date search
         if (!empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
             // combine dateFrom and dateTo into filterquery as range search
-            $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}' . $fields['date'] . ':[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
+            $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}date_usi:[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
         }
 
         // Add extended search query.
