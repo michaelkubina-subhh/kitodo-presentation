@@ -230,4 +230,12 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     {
         $this->initialize();
     }
+
+    /**
+     * For testing purposes only.
+     */
+    public function setSettingsForTest($settings)
+    {
+        $this->settings = $settings;
+    }
 }
