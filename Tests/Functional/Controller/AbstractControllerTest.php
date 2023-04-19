@@ -14,6 +14,7 @@ namespace Kitodo\Dlf\Tests\Functional\Controller;
 
 use Kitodo\Dlf\Common\Solr;
 use Kitodo\Dlf\Controller\AbstractController;
+use Kitodo\Dlf\Domain\Repository\DocumentRepository;
 use Kitodo\Dlf\Domain\Repository\SolrCoreRepository;
 use Kitodo\Dlf\Tests\Functional\FunctionalTestCase;
 use TYPO3\CMS\Extbase\Mvc\Request;
@@ -32,6 +33,7 @@ abstract class AbstractControllerTest extends FunctionalTestCase
             $this->importDataSet($filePath);
         }
         $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
+        $this->initializeRepository(DocumentRepository::class, 0);
     }
 
     protected function setUpSolr($uid, $storagePid, $solrFixtures)
