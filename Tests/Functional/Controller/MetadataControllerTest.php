@@ -12,13 +12,20 @@
 
 namespace Kitodo\Dlf\Tests\Functional\Controller;
 
-use Kitodo\Dlf\Tests\Functional\FunctionalTestCase;
+use Kitodo\Dlf\Controller\MetadataController;
 
-class MetadataControllerTest extends FunctionalTestCase
+class MetadataControllerTest extends AbstractControllerTest
 {
+    static array $databaseFixtures = [
+        __DIR__ . '/../../Fixtures/Controller/documents.xml',
+        __DIR__ . '/../../Fixtures/Controller/pages.xml',
+        __DIR__ . '/../../Fixtures/Controller/solrcores.xml'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->setUpData(self::$databaseFixtures);
     }
 
     /**
@@ -26,6 +33,25 @@ class MetadataControllerTest extends FunctionalTestCase
      */
     public function canMainAction()
     {
-        // TODO implement
+        $settings = [
+            'solrcore' => 4
+        ];
+        $templateHtml = '<html>
+            mets_label:<f:for each="{documentMetadataSections}" as="section"><f:for each="{section.mets_label}" as="entry">{entry}</f:for></f:for>
+        </html>';
+        $arguments = [
+            'id' => 1001
+        ];
+
+        $controller = $this->setUpController(MetadataController::class, $settings, $templateHtml);
+        $request = $this->setUpRequest('main', $arguments);
+        $response = $this->getResponse();
+
+        $controller->processRequest($request, $response);
+        $actual = $response->getContent();
+        $expected = '<html>
+            mets_label:10 Keyboard pieces - Go. S. 658
+        </html>';
+        $this->assertEquals($expected, $actual);
     }
 }

@@ -76,9 +76,10 @@ class MetadataController extends AbstractController
     public function mainAction()
     {
         $this->cObj = $this->configurationManager->getContentObject();
+        $requestData = $this->request->getArguments();
 
         // Load current document.
-        $this->loadDocument($this->requestData);
+        $this->loadDocument($requestData);
         if ($this->isDocMissing()) {
             // Quit without doing anything if required variables are not set.
             return '';
@@ -101,7 +102,7 @@ class MetadataController extends AbstractController
             }
         }
         $useOriginalIiifManifestMetadata = $this->settings['originalIiifMetadata'] == 1 && $this->document->getDoc() instanceof IiifManifest;
-        $metadata = $this->getMetadata();
+        $metadata = $this->getMetadata($requestData);
         // Get titledata?
         if (empty($metadata) || ($this->settings['rootline'] == 1 && $metadata[0]['_id'] != $this->document->getDoc()->toplevelId)) {
             $data = $useOriginalIiifManifestMetadata ? $this->document->getDoc()->getManifestMetadata($this->document->getDoc()->toplevelId, $this->settings['storagePid']) : $this->document->getDoc()->getTitledata($this->settings['storagePid']);
@@ -289,14 +290,14 @@ class MetadataController extends AbstractController
      *
      * @return array metadata
      */
-    private function getMetadata()
+    private function getMetadata($requestData)
     {
         $metadata = [];
         if ($this->settings['rootline'] < 2) {
             // Get current structure's @ID.
             $ids = [];
-            if (!empty($this->document->getDoc()->physicalStructure[$this->requestData['page']]) && !empty($this->document->getDoc()->smLinks['p2l'][$this->document->getDoc()->physicalStructure[$this->requestData['page']]])) {
-                foreach ($this->document->getDoc()->smLinks['p2l'][$this->document->getDoc()->physicalStructure[$this->requestData['page']]] as $logId) {
+            if (!empty($this->document->getDoc()->physicalStructure[$requestData['page']]) && !empty($this->document->getDoc()->smLinks['p2l'][$this->document->getDoc()->physicalStructure[$requestData['page']]])) {
+                foreach ($this->document->getDoc()->smLinks['p2l'][$this->document->getDoc()->physicalStructure[$requestData['page']]] as $logId) {
                     $count = $this->document->getDoc()->getStructureDepth($logId);
                     $ids[$count][] = $logId;
                 }
