@@ -12,13 +12,19 @@
 
 namespace Kitodo\Dlf\Tests\Functional\Controller;
 
-use Kitodo\Dlf\Tests\Functional\FunctionalTestCase;
+use Kitodo\Dlf\Controller\AudioPlayerController;
 
-class AudioPlayerControllerTest extends FunctionalTestCase
+class AudioPlayerControllerTest extends AbstractControllerTest
 {
+    static array $databaseFixtures = [
+        __DIR__ . '/../../Fixtures/Controller/documents_audio.xml',
+        __DIR__ . '/../../Fixtures/Controller/pages.xml',
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->setUpData(self::$databaseFixtures);
     }
 
     /**
@@ -26,6 +32,18 @@ class AudioPlayerControllerTest extends FunctionalTestCase
      */
     public function canMainAction()
     {
-        // TODO implement
+        $_POST['tx_dlf'] = [
+            'id'=> 2001,
+        ];
+        $templateHtml = 'This template should be returned.';
+        $controller = $this->setUpController(AudioPlayerController::class, [], $templateHtml);
+        $request = $this->setUpRequest('main');
+        $response = $this->getResponse();
+
+        $controller->processRequest($request, $response);
+
+        $actual = $response->getContent();
+        $expected = 'This template should be returned.';
+        $this->assertEquals($expected, $actual);
     }
 }
