@@ -54,12 +54,9 @@
         <endtime>0</endtime>
         <fe_group />
         <prod_id />
-        <location>https://digital.slub-dresden.de/data/kitodo/6Saso_476248086/6Saso_476248086_mets.xml</location>
-        <record_id>oai:de:slub-dresden:db:id-476248086</record_id>
+        <location>http://web:8001/Tests/Fixtures/Controller/mets_toolbox.xml</location>
         <opac_id>476248086</opac_id>
         <union_id>476248086</union_id>
-        <urn>urn:nbn:de:bsz:14-db-id4762480864</urn>
-        <purl>http://digital.slub-dresden.de/id476248086</purl>
         <title>6 Sacred songs - Go. S. 591</title>
         <title_sorting>6 Sacred songs - Go. S. 591</title_sorting>
         <author />
