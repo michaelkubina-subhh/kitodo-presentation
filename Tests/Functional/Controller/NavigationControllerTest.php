@@ -37,16 +37,14 @@ class NavigationControllerTest extends AbstractControllerTest
      */
     public function canMainAction()
     {
+        $_POST['tx_dlf'] = ['id' => 1001];
         $templateHtml = '<html>
                 pageSteps: {pageSteps}
                 numPages: {numPages}
                 pageOptions:<f:for each="{pageOptions}" as="entry">{entry},</f:for>
             </html>';
         $controller = $this->setUpController(NavigationController::class, ['solrcore' => 4], $templateHtml);
-        $arguments = [
-            'id' => 1001
-        ];
-        $request = $this->setUpRequest('main', $arguments);
+        $request = $this->setUpRequest('main');
         $response = $this->getResponse();
         $GLOBALS['TSFE']->fe_user = new FrontendUserAuthentication();
         $GLOBALS['TSFE']->fe_user->id = 1;

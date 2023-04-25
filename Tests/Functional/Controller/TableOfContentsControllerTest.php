@@ -33,9 +33,7 @@ class TableOfContentsControllerTest extends AbstractControllerTest
      */
     public function canMainAction()
     {
-        $arguments = [
-            'id' => 1001
-        ];
+        $_POST['tx_dlf'] = ['id' => 1001];
         $templateHtml = '<html><f:for each="{toc}" as="entry">
 {entry.type} – {entry.title}
 <f:for each="{entry._SUB_MENU}" as="subentry">
@@ -44,7 +42,7 @@ class TableOfContentsControllerTest extends AbstractControllerTest
 </f:for>
 </html>';
         $controller = $this->setUpController(TableOfContentsController::class, [], $templateHtml);
-        $request = $this->setUpRequest('main', $arguments);
+        $request = $this->setUpRequest('main');
         $response = $this->getResponse();
 
         $controller->processRequest($request, $response);

@@ -33,6 +33,10 @@ class PageViewControllerTest extends AbstractControllerTest
      */
     public function canMainAction()
     {
+        $_POST['tx_dlf'] = [
+            'id' => 1001,
+            'page' => 12
+        ];
         $templateHtml = '<html>
                 docId:{docId}
                 page:{page}
@@ -42,11 +46,7 @@ class PageViewControllerTest extends AbstractControllerTest
                 viewerConfiguration:{viewerConfiguration}
             </html>';
         $controller = $this->setUpController(PageViewController::class, ['solrcore' => 4], $templateHtml);
-        $arguments = [
-            'id' => 1001,
-            'page' => 12
-        ];
-        $request = $this->setUpRequest('main', $arguments);
+        $request = $this->setUpRequest('main');
         $response = $this->getResponse();
 
         $controller->processRequest($request, $response);

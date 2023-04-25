@@ -41,8 +41,6 @@ class TableOfContentsController extends AbstractController
      */
     public function mainAction()
     {
-        $this->requestData = $this->request->getArguments();
-
         // Load current document.
         $this->loadDocument($this->requestData);
         if ($this->isDocMissing()) {

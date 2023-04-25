@@ -31,8 +31,7 @@ class PageGridController extends AbstractController
      */
     public function mainAction()
     {
-        $requestData = $this->request->getArguments();
-        $this->loadDocument($requestData);
+        $this->loadDocument($this->requestData);
         if (
             $this->isDocMissingOrEmpty()
             || empty($this->extConf['fileGrpThumbs'])
@@ -47,12 +46,12 @@ class PageGridController extends AbstractController
         // Iterate through visible page set and display thumbnails.
         for ($i = 1; $i <= $numPages; $i++) {
             $foundEntry = $this->getEntry($i, $this->extConf['fileGrpThumbs']);
-            $foundEntry['state'] = ($i == $requestData['page']) ? 'cur' : 'no';
+            $foundEntry['state'] = ($i == $this->requestData['page']) ? 'cur' : 'no';
             $entryArray[] = $foundEntry;
         }
 
         $this->view->assign('pageGridEntries', $entryArray);
-        $this->view->assign('docUid', $requestData['id']);
+        $this->view->assign('docUid', $this->requestData['id']);
     }
 
     /**

@@ -33,9 +33,7 @@ class PageGridControllerTest extends AbstractControllerTest
      */
     public function canMainAction()
     {
-        $arguments = [
-            'id' => 1001
-        ];
+        $_POST['tx_dlf'] = ['id' => 1001];
         $settings = [];
         $templateHtml = '<html>
             pageGridEntries:<f:count subject="{pageGridEntries}"/>
@@ -44,7 +42,7 @@ class PageGridControllerTest extends AbstractControllerTest
             docUid:{docUid}
         </html>';
         $controller = $this->setUpController(PageGridController::class, $settings, $templateHtml);
-        $request = $this->setUpRequest('main', $arguments);
+        $request = $this->setUpRequest('main');
         $response = $this->getResponse();
 
         $controller->processRequest($request, $response);
