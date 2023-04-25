@@ -17,7 +17,7 @@ use Kitodo\Dlf\Controller\AudioPlayerController;
 class AudioPlayerControllerTest extends AbstractControllerTest
 {
     static array $databaseFixtures = [
-        __DIR__ . '/../../Fixtures/Controller/documents_audio.xml',
+        __DIR__ . '/../../Fixtures/Controller/documents_local.xml',
         __DIR__ . '/../../Fixtures/Controller/pages.xml',
     ];
 
