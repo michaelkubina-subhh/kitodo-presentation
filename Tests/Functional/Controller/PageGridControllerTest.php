@@ -17,7 +17,7 @@ use Kitodo\Dlf\Controller\PageGridController;
 class PageGridControllerTest extends AbstractControllerTest
 {
     static array $databaseFixtures = [
-        __DIR__ . '/../../Fixtures/Controller/documents.xml',
+        __DIR__ . '/../../Fixtures/Controller/documents_local.xml',
         __DIR__ . '/../../Fixtures/Controller/pages.xml',
         __DIR__ . '/../../Fixtures/Controller/solrcores.xml'
     ];
@@ -33,12 +33,12 @@ class PageGridControllerTest extends AbstractControllerTest
      */
     public function canMainAction()
     {
-        $_POST['tx_dlf'] = ['id' => 1001];
+        $_POST['tx_dlf'] = ['id' => 2001];
         $settings = [];
         $templateHtml = '<html>
             pageGridEntries:<f:count subject="{pageGridEntries}"/>
+            pageGridEntries[0]:{pageGridEntries.0.pagination}, {pageGridEntries.0.thumbnail}
             pageGridEntries[1]:{pageGridEntries.1.pagination}, {pageGridEntries.1.thumbnail}
-            pageGridEntries[66]:{pageGridEntries.66.pagination}, {pageGridEntries.66.thumbnail}
             docUid:{docUid}
         </html>';
         $controller = $this->setUpController(PageGridController::class, $settings, $templateHtml);
@@ -48,10 +48,10 @@ class PageGridControllerTest extends AbstractControllerTest
         $controller->processRequest($request, $response);
         $actual = $response->getContent();
         $expected = '<html>
-            pageGridEntries:76
-            pageGridEntries[1]: - , https://digital.slub-dresden.de/data/kitodo/10Kepi_476251419/10Kepi_476251419_tif/jpegs/00000002.tif.thumbnail.jpg
-            pageGridEntries[66]:65, https://digital.slub-dresden.de/data/kitodo/10Kepi_476251419/10Kepi_476251419_tif/jpegs/00000067.tif.thumbnail.jpg
-            docUid:1001
+            pageGridEntries:2
+            pageGridEntries[0]: - , http://example.com/mets_audio/jpegs/00000001.tif.thumbnail.jpg
+            pageGridEntries[1]:1, http://example.com/mets_audio/jpegs/00000002.tif.thumbnail.jpg
+            docUid:2001
         </html>';
         $this->assertEquals($expected, $actual);
     }

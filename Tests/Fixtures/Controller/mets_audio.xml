@@ -72,31 +72,31 @@
                 <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/audio/00000001.wav"/>
             </mets:file>
             <mets:file ID="FILE_0002_AUDIO" MIMETYPE="audio/wave">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000002.wav"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000002.wav"/>
             </mets:file>
         </mets:fileGrp>
         <mets:fileGrp USE="THUMBS">
             <mets:file ID="FILE_0001_THUMBS" MIMETYPE="image/jpeg">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000001.tif.thumbnail.jpg"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000001.tif.thumbnail.jpg"/>
             </mets:file>
             <mets:file ID="FILE_0002_THUMBS" MIMETYPE="image/jpeg">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000002.tif.thumbnail.jpg"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000002.tif.thumbnail.jpg"/>
             </mets:file>
         </mets:fileGrp>
         <mets:fileGrp USE="MAX">
             <mets:file ID="FILE_0001_MAX" MIMETYPE="image/jpeg">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000001.tif.large.jpg"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000001.tif.large.jpg"/>
             </mets:file>
             <mets:file ID="FILE_0002_MAX" MIMETYPE="image/jpeg">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000002.tif.large.jpg"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000002.tif.large.jpg"/>
             </mets:file>
         </mets:fileGrp>
         <mets:fileGrp USE="DOWNLOAD">
             <mets:file ID="FILE_0001_DOWNLOAD" MIMETYPE="application/pdf">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000001.tif.pdf"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000001.tif.pdf"/>
             </mets:file>
             <mets:file ID="FILE_0002_DOWNLOAD" MIMETYPE="application/pdf">
-                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/00000002.tif.pdf"/>
+                <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://example.com/mets_audio/jpegs/00000002.tif.pdf"/>
             </mets:file>
             <mets:file ID="FULLDOWNLOAD" MIMETYPE="application/pdf">
                 <mets:FLocat xmlns:xlink="http://www.w3.org/1999/xlink" LOCTYPE="URL" xlink:href="http://web:8001/Tests/Fixtures/Controller/mets_audio/jpegs/10Kepi_476251419.pdf"/>

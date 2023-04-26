@@ -17,7 +17,7 @@ use Kitodo\Dlf\Controller\PageViewController;
 class PageViewControllerTest extends AbstractControllerTest
 {
     static array $databaseFixtures = [
-        __DIR__ . '/../../Fixtures/Controller/documents.xml',
+        __DIR__ . '/../../Fixtures/Controller/documents_local.xml',
         __DIR__ . '/../../Fixtures/Controller/pages.xml',
         __DIR__ . '/../../Fixtures/Controller/solrcores.xml'
     ];
@@ -34,8 +34,8 @@ class PageViewControllerTest extends AbstractControllerTest
     public function canMainAction()
     {
         $_POST['tx_dlf'] = [
-            'id' => 1001,
-            'page' => 12
+            'id' => 2001,
+            'page' => 2
         ];
         $templateHtml = '<html>
                 docId:{docId}
@@ -52,10 +52,10 @@ class PageViewControllerTest extends AbstractControllerTest
         $controller->processRequest($request, $response);
         $actual = $response->getContent();
         $expected = '<html>
-                docId:1001
-                page:12
+                docId:2001
+                page:2
                 images:
-                    https://digital.slub-dresden.de/data/kitodo/10Kepi_476251419/10Kepi_476251419_tif/jpegs/00000012.tif.large.jpg
+                    http://example.com/mets_audio/jpegs/00000002.tif.large.jpg
                     image/jpeg
                 viewerConfiguration:$(document).ready(function() {
                 if (dlfUtils.exists(dlfViewer)) {
@@ -63,7 +63,7 @@ class PageViewControllerTest extends AbstractControllerTest
                         controls: [&quot;&quot;],
                         div: &quot;&quot;,
                         progressElementId: &quot;&quot;,
-                        images: [{&quot;url&quot;:&quot;https:\/\/digital.slub-dresden.de\/data\/kitodo\/10Kepi_476251419\/10Kepi_476251419_tif\/jpegs\/00000012.tif.large.jpg&quot;,&quot;mimetype&quot;:&quot;image\/jpeg&quot;}],
+                        images: [{&quot;url&quot;:&quot;http:\/\/example.com\/mets_audio\/jpegs\/00000002.tif.large.jpg&quot;,&quot;mimetype&quot;:&quot;image\/jpeg&quot;}],
                         fulltexts: [[]],
                         annotationContainers: [[]],
                         useInternalProxy: 0
