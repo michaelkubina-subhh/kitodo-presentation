@@ -3,6 +3,7 @@
 namespace Kitodo\Dlf\Common;
 
 use Kitodo\Dlf\Common\SolrSearchResult\ResultDocument;
+use Kitodo\Dlf\Common\Helper;
 use Kitodo\Dlf\Domain\Model\Collection;
 use Kitodo\Dlf\Domain\Model\Document;
 use Kitodo\Dlf\Domain\Repository\DocumentRepository;
@@ -244,8 +245,7 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
                 // check for virtual collections query string
                 if($collectionEntry->getIndexSearch()) {
                     $virtualCollectionsQueryString .= empty($virtualCollectionsQueryString) ? '(' . $collectionEntry->getIndexSearch() . ')' : ' OR ('. $collectionEntry->getIndexSearch() . ')' ;
-                }
-                else {
+                } else {
                     $collectionsQueryString .= empty($collectionsQueryString) ? '"' . $collectionEntry->getIndexName() . '"' : ' OR "' . $collectionEntry->getIndexName() . '"';
                 }
             }
@@ -265,7 +265,7 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
             }
 
             // combine both querystrings into a single filterquery via OR if both are given, otherwise pass either of those
-            $params['filterquery'][]['query'] = implode(" OR ", array_filter([$collectionsQueryString, $virtualCollectionsQueryString]));
+            $params['filterquery'][]['query'] = implode(' OR ', array_filter([$collectionsQueryString, $virtualCollectionsQueryString]));
         }
 
         // Set some query parameters.
@@ -338,6 +338,12 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
                     $documents[$doc['uid']] = $allDocuments[$doc['uid']];
                 }
                 if ($documents[$doc['uid']]) {
+                    // translate language code if applicable
+                    if($doc['metadata']['language']) {
+                        foreach($doc['metadata']['language'] as $indexName => $language) {
+                            $doc['metadata']['language'][$indexName] = Helper::getLanguageName($doc['metadata']['language'][$indexName]);
+                        }
+                    }
                     if ($doc['toplevel'] === false) {
                         // this maybe a chapter, article, ..., year
                         if ($doc['type'] === 'year') {
@@ -358,7 +364,9 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
                             if ($this->searchParams['fulltext'] == '1') {
                                 $searchResult['snippet'] = $doc['snippet'];
                                 $searchResult['highlight'] = $doc['highlight'];
-                                $searchResult['highlight_word'] = $this->searchParams['query'];
+                                $searchResult['highlight_word'] = preg_replace('/^;|;$/', '',       // remove ; at beginning or end
+                                                                  preg_replace('/;+/', ';',         // replace any multiple of ; with a single ;
+                                                                  preg_replace('/[{~\d*}{\s+}{^=*\d+.*\d*}`~!@#$%\^&*()_|+-=?;:\'",.<>\{\}\[\]\\\]/', ';', $this->searchParams['query']))); // replace search operators and special characters with ;
                             }
                             $documents[$doc['uid']]['searchResults'][] = $searchResult;
                         }
@@ -433,6 +441,12 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
         $result = $this->searchSolr($params, true);
 
         foreach ($result['documents'] as $doc) {
+            // translate language code if applicable
+            if($doc['metadata']['language']) {
+                foreach($doc['metadata']['language'] as $indexName => $language) {
+                    $doc['metadata']['language'][$indexName] = Helper::getLanguageName($doc['metadata']['language'][$indexName]);
+                }
+            }
             $metadataArray[$doc['uid']] = $doc['metadata'];
         }
 
@@ -509,6 +523,10 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
 
             // Perform search for all documents with the same uid that either fit to the search or marked as toplevel.
             $response = $solr->service->executeRequest($solrRequest);
+            // return empty resultSet on error-response
+            if ($response->getStatusCode() == "400") {
+                return $resultSet;
+            }
             $result = $solr->service->createResult($selectQuery, $response);
 
             $uidGroup = $result->getGrouping()->getGroup('uid');

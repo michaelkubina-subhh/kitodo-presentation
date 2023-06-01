@@ -445,6 +445,7 @@ dlfViewer.prototype.displayHighlightWord = function(highlightWords = null) {
         this.highlightWords = highlightWords;
     }
 
+    // exctract highlighWords from URL
     if (this.highlightWords === null) {
         var urlParams = dlfUtils.getUrlParams();
         this.highlightWords = urlParams['tx_dlf[highlight_word]'];
@@ -596,9 +597,9 @@ dlfViewer.prototype.init = function(controlNames) {
                     center = this.map.getView().getCenter() !== undefined ? this.map.getView().getCenter() : ['', ''];
 
                 // save actual map view parameters to cookie
-                dlfUtils.setCookie('tx-dlf-pageview-zoomLevel', zoom);
-                dlfUtils.setCookie('tx-dlf-pageview-centerLon', center[0]);
-                dlfUtils.setCookie('tx-dlf-pageview-centerLat', center[1]);
+                dlfUtils.setCookie('tx-dlf-pageview-zoomLevel', zoom, "lax");
+                dlfUtils.setCookie('tx-dlf-pageview-centerLon', center[0], "lax");
+                dlfUtils.setCookie('tx-dlf-pageview-centerLat', center[1], "lax");
             }, this));
         }, this));
         this.source = new ol.source.Vector();
