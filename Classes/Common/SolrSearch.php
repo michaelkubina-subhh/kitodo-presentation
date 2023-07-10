@@ -4,6 +4,7 @@ namespace Kitodo\Dlf\Common;
 
 use Kitodo\Dlf\Common\SolrSearchResult\ResultDocument;
 use Kitodo\Dlf\Domain\Model\Collection;
+use Kitodo\Dlf\Common\Helper;
 use Kitodo\Dlf\Domain\Model\Document;
 use Kitodo\Dlf\Domain\Repository\DocumentRepository;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -338,6 +339,12 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
                     $documents[$doc['uid']] = $allDocuments[$doc['uid']];
                 }
                 if ($documents[$doc['uid']]) {
+                    // translate language code if applicable
+                    if($doc['metadata']['language']) {
+                        foreach($doc['metadata']['language'] as $indexName => $language) {
+                            $doc['metadata']['language'][$indexName] = Helper::getLanguageName($doc['metadata']['language'][$indexName]);
+                        }
+                    }
                     if ($doc['toplevel'] === false) {
                         // this maybe a chapter, article, ..., year
                         if ($doc['type'] === 'year') {
@@ -433,6 +440,12 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
         $result = $this->searchSolr($params, true);
 
         foreach ($result['documents'] as $doc) {
+            // translate language code if applicable
+            if($doc['metadata']['language']) {
+                foreach($doc['metadata']['language'] as $indexName => $language) {
+                    $doc['metadata']['language'][$indexName] = Helper::getLanguageName($doc['metadata']['language'][$indexName]);
+                }
+            }
             $metadataArray[$doc['uid']] = $doc['metadata'];
         }
 
