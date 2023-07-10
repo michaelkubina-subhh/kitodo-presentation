@@ -109,19 +109,11 @@ class SearchController extends AbstractController
 
         // sanitize date search input
         if(empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
-            $this->searchParams['dateFrom'] = $this->searchParams['dateTo'];
+            $this->searchParams['dateFrom'] = '*';
         }
         if(empty($this->searchParams['dateTo']) && !empty($this->searchParams['dateFrom'])) {
-            $this->searchParams['dateTo'] = $this->searchParams['dateFrom'];
+            $this->searchParams['dateTo'] = 'NOW';
         }
-        /* // alternative sanitize logic
-        if(empty($this->searchParams['dateFrom'])) {
-            $this->searchParams['dateFrom'] = "0000-01-01";
-        }
-        if(empty($this->searchParams['dateTo'])) {
-            $this->searchParams['dateTo'] = "9999-12-31";
-        }
-        */
         if($this->searchParams['dateFrom'] > $this->searchParams['dateTo']) {
             $tmpDate = $this->searchParams['dateFrom'];
             $this->searchParams['dateFrom'] = $this->searchParams['dateTo'];
@@ -267,7 +259,7 @@ class SearchController extends AbstractController
         // add filter query for date search
         if (!empty($this->searchParams['dateFrom']) && !empty($this->searchParams['dateTo'])) {
             // combine dateFrom and dateTo into filterquery as range search
-            $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}date_usi:[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
+            $search['params']['filterquery'][]['query'] = '{!join from=' . $fields['uid'] . ' to=' . $fields['uid'] . '}' . $fields['date'] . ':[' . $this->searchParams['dateFrom'] . ' TO ' . $this->searchParams['dateTo'] . ']';
         }
 
         // if collections are given, we prepare the collection query string

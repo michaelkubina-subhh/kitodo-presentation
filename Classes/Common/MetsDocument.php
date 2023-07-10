@@ -459,6 +459,7 @@ final class MetsDocument extends Doc
             'type' => [],
             'volume' => [],
             'volume_sorting' => [],
+            'date' => [],
             'license' => [],
             'terms' => [],
             'restrictions' => [],
@@ -646,6 +647,9 @@ final class MetsDocument extends Doc
         if (empty($metadata['title'][0])) {
             $metadata['title'][0] = '';
             $metadata['title_sorting'][0] = '';
+        }
+        if (empty($metadata['date'][0])) {
+            $metadata['date'][0] = '';
         }
         // Files are not expected to reference a dmdSec
         if (isset($this->fileInfos[$id]) || isset($hasMetadataSection['dmdSec'])) {
