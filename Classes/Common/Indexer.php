@@ -349,7 +349,7 @@ class Indexer
                 } elseif (preg_match("/^[0-9]{8}$/", $metadata['date'][0])){
                     $solrDoc->setField('date', date("Y-m-d", strtotime($metadata['date'][0])));
                     // convert any datetime to proper ISO extended datetime format and timezone for SOLR
-                } else {
+                } elseif (preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}T.*$/", $metadata['date'][0])) {
                     $solrDoc->setField('date', date('Y-m-d\TH:i:s\Z', strtotime($metadata['date'][0])));
                 }
                 $solrDoc->setField('date', $metadata['date'][0]);
