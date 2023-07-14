@@ -87,6 +87,9 @@ class SearchInDocument
             $output['numFound'] = $result->getNumFound();
             $data = $result->getData();
             $highlighting = $data['ocrHighlighting'];
+            $output['highlight_word'] = preg_replace('/^;|;$/', '',       // remove ; at beginning or end
+                preg_replace('/;+/', ';',         // replace any multiple of ; with a single ;
+                preg_replace('/[{~\d*}{\s+}{^=*\d+.*\d*}`~!@#$%\^&*()_|+-=?;:\'",.<>\{\}\[\]\\\]/', ';', $parameters['q']))); // replace search operators and special characters with ;
 
             foreach ($result as $record) {
                 $resultDocument = new ResultDocument($record, $highlighting, $fields);

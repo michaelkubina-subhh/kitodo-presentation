@@ -297,7 +297,12 @@ function addImageHighlight(data) {
             }
         });
 
-        tx_dlf_viewer.displayHighlightWord(encodeURIComponent(highlights.join(';'))); // eslint-disable-line camelcase
+        // tx_dlf_viewer.displayHighlightWord(encodeURIComponent(highlights.join(';'))); // eslint-disable-line camelcase
+        tx_dlf_viewer.displayHighlightWord(encodeURIComponent(data['highlight_word'])); // eslint-disable-line camelcase
+        tmp = new URL(window.location);
+        tmp.searchParams.set("tx_dlf[highlight_word]", decodeURIComponent(data['highlight_word']));
+        tmp.search = decodeURIComponent(tmp.search)
+        history.pushState(null, null, tmp);
     } else {
         setTimeout(addImageHighlight, 500, data);
     }
@@ -355,7 +360,11 @@ $(document).ready(function() {
                                 + $('#tx-dlf-search-in-document-label-page').text() + ' ' + element['page']
                                 + '</span><br />'
                                 + '<span class="textsnippet">'
-                                + '<a href=\"' + getLink(element) + '\">' + element['snippet'] + '</a>'
+                                // + '<a href=\"' + getLink(element) + '\">' + element['snippet'] + '</a>'
+                                + '<a href=\"' + window.location.protocol + '//' + window.location.hostname
+                                + window.location.pathname + '?tx_dlf[id]=' + element['uid']
+                                + '&tx_dlf[page]=' + element['page'] + '&tx_dlf[highlight_word]='
+                                + data['highlight_word'] + '\">' + element['snippet'] + '</a>'
                                 + '</span>';
                         }
                     });
