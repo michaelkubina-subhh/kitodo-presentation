@@ -147,6 +147,9 @@ class CalendarController extends AbstractController
                 // Set title for display in calendar view.
                 if (!empty($document->getTitle())) {
                     $title = $document->getTitle();
+                    if (!empty($document->getMetsLabel())) {
+                        $title .= ' - ' . $document->getMetsLabel();
+                    }
                 } else {
                     $title = !empty($document->getMetsLabel()) ? $document->getMetsLabel() : $document->getMetsOrderlabel();
                     if (strtotime($title) !== false) {
