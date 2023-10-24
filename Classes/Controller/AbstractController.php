@@ -141,8 +141,14 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
 
                 if (isset($this->settings['multiViewType']) && $doc->tableOfContents[0]['type'] === $this->settings['multiViewType']) {
                     $childDocuments = $doc->tableOfContents[0]['children'];
+                    $i = 0;
                     foreach ($childDocuments as $document) {
                         $this->documentArray[] = Doc::getInstance($document['points'], $this->settings, true);
+                        if (isset(explode('#', $document['points'])[1])) {
+                            $initPage = explode('#', $document['points'])[1];
+                            $this->requestData['docPage'][$i] = $initPage;
+                        }
+                        $i++;
                     }
                 } else {
                     $this->documentArray[] = $doc;
