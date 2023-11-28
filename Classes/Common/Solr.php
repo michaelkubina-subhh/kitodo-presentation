@@ -79,7 +79,7 @@ class Solr implements LoggerAwareInterface
      * @var int
      * @access protected
      */
-    protected $limit = 50000;
+    protected $limit = 1000000;
 
     /**
      * This holds the number of hits for last search
