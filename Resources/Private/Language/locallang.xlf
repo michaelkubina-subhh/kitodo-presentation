@@ -170,6 +170,12 @@
 			<trans-unit id="rotateRight">
 				<source><![CDATA[Rotate Right]]></source>
 			</trans-unit>
+			<trans-unit id="navigation.volumeBack">
+				<source><![CDATA[Previous document]]></source>
+			</trans-unit>
+			<trans-unit id="navigation.volumeForward">
+				<source><![CDATA[Next document]]></source>
+			</trans-unit>
 			<trans-unit id="selectPage">
 				<source><![CDATA[Page]]></source>
 			</trans-unit>
