@@ -236,4 +236,38 @@
         </a>
     </div>
 </f:section>
+
+<f:section name="render.volumeBack">
+    <div class="tx-dlf-navigation-volumeBack">
+        <f:if condition="{volumeBack}">
+            <f:then>
+                <f:link.action addQueryString="1" addQueryStringMethod="GET" additionalParams="{'tx_dlf[page]':'1', 'tx_dlf[id]': '{volumeBack}'}" title="{f:translate(key: 'navigation.volumeBack')}">
+                    <f:translate key="navigation.volumeBack"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <span title="{f:translate(key: 'navigation.volumeBack')}">
+                    <f:translate key="navigation.volumeBack"/>
+                </span>
+            </f:else>
+        </f:if>
+    </div>
+</f:section>
+
+<f:section name="render.volumeForward">
+    <div class="tx-dlf-navigation-volumeForward">
+        <f:if condition="{volumeForward}">
+            <f:then>
+                <f:link.action addQueryString="1" addQueryStringMethod="GET" additionalParams="{'tx_dlf[page]':'1', 'tx_dlf[id]': '{volumeForward}'}" title="{f:translate(key: 'navigation.volumeForward')}">
+                    <f:translate key="navigation.volumeForward"/>
+                </f:link.action>
+            </f:then>
+            <f:else>
+                <span title="{f:translate(key: 'navigation.volumeForward')}">
+                    <f:translate key="navigation.volumeForward"/>
+                </span>
+            </f:else>
+        </f:if>
+    </div>
+</f:section>
 </html>
