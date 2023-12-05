@@ -15,6 +15,9 @@ use Kitodo\Dlf\Common\Helper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Connection;
+
 /**
  * Controller class for the plugin 'Navigation'.
  *
@@ -118,6 +121,48 @@ class NavigationController extends AbstractController
             $pageOptions[$i] = '[' . $i . ']' . ($this->document->getDoc()->physicalStructureInfo[$this->document->getDoc()->physicalStructure[$i]]['orderlabel'] ? ' - ' . htmlspecialchars($this->document->getDoc()->physicalStructureInfo[$this->document->getDoc()->physicalStructure[$i]]['orderlabel']) : '');
         }
         $this->view->assign('pageOptions', $pageOptions);
+
+        // volume-navigation -> check if part of something
+        if ($parentId = $this->document->getPartof()) {
+
+            $currentVolume['volume_sorting'] = $this->document->getVolumeSorting();
+
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tx_dlf_documents');
+
+            // Grab previous volume
+            $prevVolume = $queryBuilder
+            ->select(
+                'tx_dlf_documents.uid AS uid'
+            )
+            ->from('tx_dlf_documents')
+            ->where(
+                $queryBuilder->expr()->eq('tx_dlf_documents.partof', intval($parentId)),
+                'tx_dlf_documents.volume_sorting < \'' . strval($currentVolume['volume_sorting']) . '\''
+            )
+            ->add('orderBy', 'volume_sorting desc')
+            ->addOrderBy('tx_dlf_documents.volume_sorting')
+            ->execute()
+            ->fetch();
+
+            // Grab next volume
+            $nextVolume = $queryBuilder
+            ->select(
+                'tx_dlf_documents.uid AS uid'
+            )
+            ->from('tx_dlf_documents')
+            ->where(
+                $queryBuilder->expr()->eq('tx_dlf_documents.partof', intval($parentId)),
+                'tx_dlf_documents.volume_sorting > \'' . strval($currentVolume['volume_sorting']) . '\''
+            )
+            ->add('orderBy', 'volume_sorting asc')
+            ->addOrderBy('tx_dlf_documents.volume_sorting')
+            ->execute()
+            ->fetch();
+
+            $this->view->assign('volumeBack', $prevVolume['uid']);
+            $this->view->assign('volumeForward', $nextVolume['uid']);
+        }
 
         // prepare feature array for fluid
         $features = [];

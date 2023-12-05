@@ -194,6 +194,12 @@
 			<trans-unit id="plugins.navigation.flexform.features.rotation">
 				<source><![CDATA[Buttons for rotate image left, right and reset]]></source>
 			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.volumeBack">
+				<source><![CDATA[Show previous document]]></source>
+			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.volumeForward">
+				<source><![CDATA[Show next document]]></source>
+			</trans-unit>
 			<trans-unit id="plugins.navigation.flexform.features.zoom">
 				<source><![CDATA[Buttons for zoom-in, zoom-out and full screen]]></source>
 			</trans-unit>

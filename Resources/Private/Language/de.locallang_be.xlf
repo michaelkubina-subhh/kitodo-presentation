@@ -293,6 +293,14 @@
 				<source><![CDATA[Buttons for rotate image left, right and reset]]></source>
 				<target><![CDATA[Rotations-Buttons: links, rechts und zurück]]></target>
 			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.volumeBack" approved="yes">
+				<source><![CDATA[Show previous volume]]></source>
+				<target><![CDATA[Ein Dokument zurück]]></target>
+			</trans-unit>
+			<trans-unit id="plugins.navigation.flexform.features.volumeForward" approved="yes">
+				<source><![CDATA[Show next volume]]></source>
+				<target><![CDATA[Ein Dokument vor]]></target>
+			</trans-unit>
 			<trans-unit id="plugins.navigation.flexform.features.zoom" approved="yes">
 				<source><![CDATA[Buttons for zoom-in, zoom-out and full screen]]></source>
 				<target><![CDATA[Zoom-Buttons und Vollbild-Modus]]></target>
