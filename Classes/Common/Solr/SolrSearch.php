@@ -503,6 +503,7 @@ class SolrSearch implements \Countable, \Iterator, \ArrayAccess, QueryResultInte
                     // get title of parent/grandparent/... if empty
                     if (empty($documents[$doc['uid']]['title']) && $documents[$doc['uid']]['partOf'] > 0) {
                         $doc['title'] = $this->getTitleFromPartOf($documents[$doc['uid']]['partOf']);
+                        $documents[$doc['uid']]['title'] = $doc['title'];
                     }
                     $this->translateLanguageCode($doc);
                     if ($doc['toplevel'] === false) {
