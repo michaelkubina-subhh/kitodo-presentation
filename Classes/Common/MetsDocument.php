@@ -12,6 +12,7 @@
 
 namespace Kitodo\Dlf\Common;
 
+use \DOMNodeList;
 use \DOMElement;
 use \DOMXPath;
 use \SimpleXMLElement;
@@ -675,13 +676,15 @@ final class MetsDocument extends AbstractDocument
     {
         if ($resArray['format'] > 0 && !empty($resArray['xpath'])) {
             $values = $domXPath->evaluate($resArray['xpath'], $domNode);
-            if ($values instanceof \DOMNodeList && $values->length > 0) {
+            if ($values instanceof DOMNodeList && $values->length > 0) {
                 $metadata[$resArray['index_name']] = [];
                 foreach ($values as $value) {
                     $metadata[$resArray['index_name']][] = trim((string) $value->nodeValue);
                 }
-            } elseif (!($values instanceof \DOMNodeList)) {
-                $metadata[$resArray['index_name']] = [trim((string) $values)];
+            } elseif (!($values instanceof DOMNodeList)) {
+                if (!empty($values)) {
+                    $metadata[$resArray['index_name']] = [trim((string) $values)];
+                }
             }
         }
     }
@@ -720,9 +723,9 @@ final class MetsDocument extends AbstractDocument
         if (!empty($metadata[$resArray['index_name']]) && $resArray['is_sortable']) {
             if ($resArray['format'] > 0 && !empty($resArray['xpath_sorting'])) {
                 $values = $domXPath->evaluate($resArray['xpath_sorting'], $domNode);
-                if ($values instanceof \DOMNodeList && $values->length > 0) {
+                if ($values instanceof DOMNodeList && $values->length > 0) {
                     $metadata[$resArray['index_name'] . '_sorting'][0] = trim((string) $values->item(0)->nodeValue);
-                } elseif (!($values instanceof \DOMNodeList)) {
+                } elseif (!($values instanceof DOMNodeList)) {
                     $metadata[$resArray['index_name'] . '_sorting'][0] = trim((string) $values);
                 }
             }
