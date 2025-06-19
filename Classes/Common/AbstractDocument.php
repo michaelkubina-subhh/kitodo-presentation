@@ -321,6 +321,21 @@ abstract class AbstractDocument
     abstract public function getFileLocation(string $id): string;
 
     /**
+     * This gets the location of a file representing a physical page or track
+     *
+     * @access public
+     *
+     * @abstract
+     *
+     * @param string $id The "@ID" attribute of the file node (METS) or the "@id" property of the IIIF resource
+     *
+     * @param string $fileGrp The "@USE" attribute of the file node (METS)
+     *
+     * @return string The file's location as URL
+     */
+    abstract public function getFileLocationInFilegroup(string $id, string $fileGrp): string;
+
+    /**
      * This gets the MIME type of a file representing a physical page or track
      *
      * @access public

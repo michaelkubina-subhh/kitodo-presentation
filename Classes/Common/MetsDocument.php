@@ -246,6 +246,23 @@ final class MetsDocument extends AbstractDocument
     }
 
     /**
+     * @see AbstractDocument::getFileLocationInFilegroup()
+     */
+    public function getFileLocationInFilegroup(string $id, string $fileGrp): string
+    {
+        $location = $this->mets->xpath('./mets:fileSec/mets:fileGrp[@USE="' . $fileGrp . '"]/mets:file[@ID="' . $id . '"]/mets:FLocat[@LOCTYPE="URL"]');
+        if (
+            !empty($id)
+            && !empty($location)
+        ) {
+            return (string) $location[0]->attributes('http://www.w3.org/1999/xlink')->href;
+        } else {
+            $this->logger->warning('There is no file node with @ID "' . $id . '"');
+            return '';
+        }
+    }
+
+    /**
      * @see AbstractDocument::getFileMimeType()
      */
     public function getFileMimeType(string $id): string
