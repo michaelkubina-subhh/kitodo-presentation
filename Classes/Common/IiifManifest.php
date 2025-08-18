@@ -989,6 +989,15 @@ final class IiifManifest extends AbstractDocument
     }
 
     /**
+     * @see AbstractDocument::getFileLocationInFilegroup()
+     */
+    public function getFileLocationInFilegroup(string $id, string $fileGrp): string
+    {
+        $fileLocation = $this->getFileLocation($id);
+        return $fileLocation;
+    }
+
+    /**
      * This magic method is executed after the object is deserialized
      * @see __sleep()
      *
