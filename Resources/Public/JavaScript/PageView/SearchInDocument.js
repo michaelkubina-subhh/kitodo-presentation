@@ -212,7 +212,7 @@ function triggerSearchAfterHitLoad() {
 
         if(searchedQueryParam && decodeURIComponent(queryParam[0]).indexOf(searchedQueryParam) !== -1) {
             $("input[id='tx-dlf-search-in-document-query']").val(decodeURIComponent(queryParam[1]));
-            $("#tx-dlf-search-in-document-form").submit();
+            //$("#tx-dlf-search-in-document-form").submit();
             break;
         }
     }
