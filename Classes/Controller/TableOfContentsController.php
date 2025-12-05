@@ -125,7 +125,7 @@ class TableOfContentsController extends AbstractController
         $entryArray['volume'] = $entry['volume'];
         $entryArray['year'] = $entry['year'];
         $entryArray['orderlabel'] = $entry['orderlabel'];
-        $entryArray['type'] = $this->getTranslatedType($entry['type']);
+        $entryArray['type'] = $entry['type'];
         $entryArray['pagination'] = htmlspecialchars($entry['pagination']);
         $entryArray['_OVERRIDE_HREF'] = '';
         $entryArray['doNotLinkIt'] = 1;

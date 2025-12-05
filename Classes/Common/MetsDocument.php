@@ -1485,6 +1485,7 @@ final class MetsDocument extends AbstractDocument
      */
     public function magicGetParentHref(): string
     {
+        $this->magicGetToplevelId();
         if (empty($this->parentHref)) {
             // Get the closest ancestor of the current document which has a MPTR child.
             $parentMptr = $this->mets->xpath('./mets:structMap[@TYPE="LOGICAL"]//mets:div[@ID="' . $this->toplevelId . '"]/ancestor::mets:div[./mets:mptr][1]/mets:mptr');
