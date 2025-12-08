@@ -21,3 +21,6 @@ services:
     tags:
       - name: 'console.command'
         command: 'kitodo:reindex'
+
+ Kitodo\Dlf\Service\DocumentService:
+    public: true
