@@ -26,6 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Pagination\PaginatorInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 /**
@@ -76,17 +77,20 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      * @var DocumentRepository
      */
     protected DocumentRepository $documentRepository;
-    /**
-     * @access protected
-     * @var DocumentService
-     */
-    protected DocumentService $documentService;
 
+    protected ?DocumentService $documentService = null;
+    protected ObjectManager $objectManager;
+    // Fallback setter for the Object Manager
+    public function injectObjectManager(ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
     public function injectDocumentRepository(DocumentRepository $repo): void
     {
         $this->documentRepository = $repo;
     }
-     public function injectDocumentService(DocumentService $service): void
+    
+    public function injectDocumentService(DocumentService $service)
     {
         $this->documentService = $service;
     }
@@ -97,8 +101,20 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      *
      * @return void
      */
-    protected function initialize(): void
+    protected function initializeAction(): void
     {
+        // The check is crucial for handling the Object Manager fallback
+        if ($this->documentService === null) {
+            // Double-check: Is $this->objectManager available? 
+            // If not, injectObjectManager is not being called.
+            if (!isset($this->objectManager)) {
+                // This would be a fatal error, but we can't fix it here.
+                // Assuming injectObjectManager is called by the container:
+                $this->documentService = $this->objectManager->get(DocumentService::class);
+            } else {
+                 $this->documentService = $this->objectManager->get(DocumentService::class);
+            }
+        }
         $this->requestData = GeneralUtility::_GPmerged('tx_dlf');
         $this->pageUid = (int) GeneralUtility::_GET('id');
 
@@ -109,8 +125,6 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $this->extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('dlf');
 
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-
-        $this->documentService = GeneralUtility::makeInstance(DocumentService::class);
 
         $this->viewData = [
             'pageUid' => $this->pageUid,
@@ -333,18 +347,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $this->viewData['requestData'] = $this->requestData;
     }
 
-    /**
-     * This is the constructor
-     *
-     * @access public
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->initialize();
-    }
-
+  
     /**
      * build simple pagination
      *

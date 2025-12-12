@@ -44,9 +44,12 @@ class DocumentService
     protected $logger;
     protected DocumentRepository $documentRepository;
 
-    public function __construct()
+    public function __construct(DocumentRepository $documentRepository)
     {
-        $this->documentRepository = GeneralUtility::makeInstance(DocumentRepository::class);
+        // 1. Repository injected via constructor (Correct)
+        $this->documentRepository = $documentRepository;
+        
+        // 2. Logger manually retrieved (Necessary if LoggerAwareTrait isn't used)
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 

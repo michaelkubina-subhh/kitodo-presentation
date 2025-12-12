@@ -60,8 +60,10 @@ class NavigationController extends AbstractController
      */
     public function mainAction(): void
     {
+        $start = microtime(true);
         // Load current document.
         $this->loadDocument();
+        echo "Time: " . (microtime(true) - $start) . "<br>";
         if ($this->isDocMissing()) {
             // Quit without doing anything if required variables are not set.
             return;
