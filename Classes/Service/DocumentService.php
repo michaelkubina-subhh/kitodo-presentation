@@ -44,12 +44,9 @@ class DocumentService
     protected $logger;
     protected DocumentRepository $documentRepository;
 
-    public function __construct(DocumentRepository $documentRepository)
+    public function __construct()
     {
-        // 1. Repository injected via constructor (Correct)
-        $this->documentRepository = $documentRepository;
-        
-        // 2. Logger manually retrieved (Necessary if LoggerAwareTrait isn't used)
+        $this->documentRepository = GeneralUtility::makeInstance(DocumentRepository::class);
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
@@ -68,13 +65,10 @@ class DocumentService
      */
     public function getDocument($recordId, $settings)
     {
-        if (isset($GLOBALS['TX_DLF_TEMP_DOCUMENT'])) {
-            return $GLOBALS['TX_DLF_TEMP_DOCUMENT'];
-        } else {
+        if ($this->document === null) {
             $this->serviceLoadDocument($recordId, $settings);
-            $GLOBALS['TX_DLF_TEMP_DOCUMENT'] = $this->document;
-            return $this->document;
         }
+        return $this->document;
     }
     /**
      * @access public

@@ -23,15 +23,4 @@ services:
         command: 'kitodo:reindex'
 
   Kitodo\Dlf\Service\DocumentService:
-    autowire: true
-    autoconfigure: true
     public: true
-
-  Kitodo\Dlf\Controller\AbstractController:
-    calls:
-      - method: 'injectDocumentService'
-        arguments:
-          $service: '@Kitodo\Dlf\Service\DocumentService'
-      - method: 'injectObjectManager'
-        arguments:
-          $objectManager: '@TYPO3\CMS\Extbase\Object\ObjectManager'

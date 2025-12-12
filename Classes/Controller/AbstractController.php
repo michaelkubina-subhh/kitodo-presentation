@@ -11,7 +11,6 @@
 
 namespace Kitodo\Dlf\Controller;
 
-use Kitodo\Dlf\Common\AbstractDocument;
 use Kitodo\Dlf\Common\Helper;
 use Kitodo\Dlf\Domain\Model\Document;
 use Kitodo\Dlf\Domain\Repository\DocumentRepository;
@@ -26,7 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Pagination\PaginatorInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 
 /**
@@ -78,21 +76,20 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      */
     protected DocumentRepository $documentRepository;
 
-    protected ?DocumentService $documentService = null;
-    protected ObjectManager $objectManager;
-    // Fallback setter for the Object Manager
-    public function injectObjectManager(ObjectManager $objectManager)
+    protected DocumentService $documentService;
+
+    public function __construct()
     {
-        $this->objectManager = $objectManager;
+        $this->initialize();
+    }
+
+    public function injectDocumentService(DocumentService $documentService)
+    {
+        $this->documentService = $documentService;
     }
     public function injectDocumentRepository(DocumentRepository $repo): void
     {
         $this->documentRepository = $repo;
-    }
-    
-    public function injectDocumentService(DocumentService $service)
-    {
-        $this->documentService = $service;
     }
     /**
      * Initialize the plugin controller
@@ -101,20 +98,8 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      *
      * @return void
      */
-    protected function initializeAction(): void
+    protected function initialize(): void
     {
-        // The check is crucial for handling the Object Manager fallback
-        if ($this->documentService === null) {
-            // Double-check: Is $this->objectManager available? 
-            // If not, injectObjectManager is not being called.
-            if (!isset($this->objectManager)) {
-                // This would be a fatal error, but we can't fix it here.
-                // Assuming injectObjectManager is called by the container:
-                $this->documentService = $this->objectManager->get(DocumentService::class);
-            } else {
-                 $this->documentService = $this->objectManager->get(DocumentService::class);
-            }
-        }
         $this->requestData = GeneralUtility::_GPmerged('tx_dlf');
         $this->pageUid = (int) GeneralUtility::_GET('id');
 
@@ -133,7 +118,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         ];
     }
     /**
-     * Load the current Document to Globals Temp just once with Document Service - it will then be available for all controllers.
+     * Load the current Document into Memory just once with Document Service - it will then be available for all controllers.
      *
      * @access protected
      * @return void
@@ -143,7 +128,6 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         $this->sanitizeSettings();
         $this->document = $this->documentService->getDocument($this->requestData['id'], $this->settings);
     }
-
 
     /**
      * Configure URL for proxy.
