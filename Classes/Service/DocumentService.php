@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Kitodo\Dlf\Common\AbstractDocument;
 use Kitodo\Dlf\Domain\Model\Document;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
 /**
  * (Service For Abstract Controller) Service that decouples the loading of documents from each controller to only once.
  *
@@ -28,9 +29,9 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 class DocumentService
 {
      /**
-     * @access protected
-     * @var Document|null This holds the current document
-     */
+      * @access protected
+      * @var Document|null This holds the current document
+      */
     protected ?Document $document = null;
     /**
      * @access protected
@@ -75,10 +76,9 @@ class DocumentService
      * @param int $recordId
      * @param array $settings
      */
-    private function serviceLoadDocument($recordId, $settings){
-       
+    private function serviceLoadDocument($recordId, $settings)
+    {
         $this->settings = $settings;
-
         // Get document ID from request data if not passed as parameter.
         if (!empty($recordId)) {
             $documentId = $recordId;
@@ -176,4 +176,3 @@ class DocumentService
         return $doc;
     }
 }
-?>
