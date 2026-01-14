@@ -89,6 +89,10 @@
                 <source><![CDATA[Rights Information]]></source>
                 <target><![CDATA[Rechteinformation]]></target>
             </trans-unit>
+            <trans-unit id="metadata.structure_path" approved="yes">
+                <source><![CDATA[Structure Path]]></source>
+                <target><![CDATA[Strukturpfad]]></target>
+            </trans-unit>
             <trans-unit id="metadata.shelfmark" approved="yes">
                 <source><![CDATA[Shelfmark]]></source>
                 <target><![CDATA[Signatur]]></target>
